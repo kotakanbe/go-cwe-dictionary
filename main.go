@@ -10,8 +10,6 @@ import (
 	"github.com/google/subcommands"
 	"github.com/kotakanbe/go-cwe-dictionary/commands"
 	"github.com/kotakanbe/go-cwe-dictionary/version"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
