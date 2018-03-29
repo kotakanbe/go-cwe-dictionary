@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Sirupsen/logrus"
 	formatter "github.com/kotakanbe/logrus-prefixed-formatter"
 	"github.com/rifflock/lfshook"
+	"github.com/sirupsen/logrus"
 )
 
 var logger *logrus.Entry
@@ -34,7 +34,7 @@ func init() {
 			logrus.ErrorLevel: path,
 			logrus.FatalLevel: path,
 			logrus.PanicLevel: path,
-		}))
+		}, nil))
 	}
 
 	fields := logrus.Fields{"prefix": ""}
