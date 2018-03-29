@@ -21,10 +21,7 @@ func Init(conf c.Config) error {
 	if err := OpenDB(conf); err != nil {
 		return err
 	}
-	if err := MigrateDB(); err != nil {
-		return err
-	}
-	return nil
+	return MigrateDB()
 }
 
 // OpenDB opens Database

@@ -14,40 +14,15 @@ import (
 // WeaknessCatalog has cwe items
 // http://cwe.mitre.org/data/index.html
 type WeaknessCatalog struct {
-	Views            []View            `xml:"Views>View"`
-	Categories       []Category        `xml:"Categories>Category"`
-	Weaknesses       []Weakness        `xml:"Weaknesses>Weakness"`
-	CompoundElements []CompoundElement `xml:"Compound_Elements>Compound_Element"`
-}
-
-// View has CWE View item
-type View struct {
-	ID   string   `xml:"ID,attr"`
-	Name string   `xml:"Name,attr"`
-	Text []string `xml:"View_Objective>Text"`
-}
-
-// Category has CWE category item
-type Category struct {
-	ID                 string `xml:"ID,attr"`
-	Name               string `xml:"Name,attr"`
-	DescriptionSummary string `xml:"Description>Description_Summary"`
+	Weaknesses []Weakness `xml:"Weaknesses>Weakness"`
 }
 
 // Weakness has CWE weakness item
 type Weakness struct {
 	ID                  string `xml:"ID,attr"`
 	Name                string `xml:"Name,attr"`
-	DescriptionSummary  string `xml:"Description>Description_Summary"`
-	ExtendedDescription string `xml:"Description>Extended_Description>Text"`
-}
-
-// CompoundElement has CWE compound element item
-type CompoundElement struct {
-	ID                  string `xml:"ID,attr"`
-	Name                string `xml:"Name,attr"`
-	DescriptionSummary  string `xml:"Description>Description_Summary"`
-	ExtendedDescription string `xml:"Description>Extended_Description>Text"`
+	Description         string `xml:"Description"`
+	ExtendedDescription string `xml:"Extended_Description"`
 }
 
 // FetchCWE fetches CWE archive
@@ -55,7 +30,7 @@ func FetchCWE(httpProxy string) (cwes WeaknessCatalog, err error) {
 	var body string
 	var errs []error
 	var resp *http.Response
-	url := "http://cwe.mitre.org/data/xml/cwec_v2.9.xml.zip"
+	url := "https://cwe.mitre.org/data/xml/cwec_v3.0.xml.zip"
 	resp, body, errs = gorequest.New().Proxy(httpProxy).Get(url).End()
 
 	if len(errs) > 0 || resp == nil || resp.StatusCode != 200 {
