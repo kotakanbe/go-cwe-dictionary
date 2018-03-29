@@ -10,7 +10,6 @@ type Cwe struct {
 	gorm.Model
 
 	CweID               string
-	Type                string
 	Name                string
 	Description         string
 	ExtendedDescription string
@@ -20,7 +19,6 @@ type Cwe struct {
 func ConvertToModel(cwes cwe.WeaknessCatalog) (cweModels []Cwe) {
 	for _, item := range cwes.Weaknesses {
 		cweModels = append(cweModels, Cwe{
-			Type:                "weakness",
 			CweID:               item.ID,
 			Name:                item.Name,
 			Description:         item.Description,
