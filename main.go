@@ -18,6 +18,7 @@ func main() {
 	subcommands.Register(subcommands.CommandsCommand(), "")
 	subcommands.Register(&commands.ServerCmd{}, "server")
 	subcommands.Register(&commands.FetchCmd{}, "fetch")
+	subcommands.Register(&commands.FetchJVNCmd{}, "fetchjvn")
 
 	var v = flag.Bool("v", false, "Show version")
 

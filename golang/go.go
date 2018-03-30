@@ -7,9 +7,19 @@ import (
 	"github.com/kotakanbe/go-cwe-dictionary/models"
 )
 
+// GenerateJVN  go const definition
+func GenerateJVN(cwes []models.Cwe) (string, error) {
+	return Generate(cwes, tmplJVN)
+}
+
+// GenerateNVD go const definition
+func GenerateNVD(cwes []models.Cwe) (string, error) {
+	return Generate(cwes, tmplNVD)
+}
+
 // Generate go const definition
-func Generate(cwes []models.Cwe) (string, error) {
-	tmpl, err := template.New("detail").Parse(tmpl)
+func Generate(cwes []models.Cwe, tmplstr string) (string, error) {
+	tmpl, err := template.New("detail").Parse(tmplstr)
 	if err != nil {
 		return "", err
 	}
@@ -20,25 +30,44 @@ func Generate(cwes []models.Cwe) (string, error) {
 	return string(buf.Bytes()), nil
 }
 
-const tmpl = `
+const tmplNVD = `
 package cwe
 
 // Cwe has CWE information
 type Cwe struct {
-	CweID                 string
-	NameEn                string
-	DescriptionEn         string
-	ExtendedDescriptionEn string
+	CweID               string
+	Name                string
+	Description         string
+	ExtendedDescription string
+	Lang                string ` + "`" + `json:"-"` + "`" + `
 }
 
-// CweDict is the Cwe dictionary
-var CweDict = map[string]Cwe {
+// CweDictEn is the Cwe dictionary
+var CweDictEn = map[string]Cwe {
 {{range $cwe := . -}}
     "{{$cwe.CweID}}" : {
 		CweID                 : "{{$cwe.CweID}}",
-		NameEn                : "{{$cwe.Name}}",
-		DescriptionEn         : "{{$cwe.Description}}",
-		ExtendedDescriptionEn : "{{$cwe.ExtendedDescription}}",
+		Name                  : "{{$cwe.Name}}",
+		Description           : "{{$cwe.Description}}",
+		ExtendedDescription   : "{{$cwe.ExtendedDescription}}",
+		Lang                  : "en",
+	},
+{{end}}
+}
+`
+
+const tmplJVN = `
+package cwe
+
+// CweDictJa is the Cwe dictionary
+var CweDictJa = map[string]Cwe {
+{{range $cwe := . -}}
+    "{{$cwe.CweID}}" : {
+		CweID                 : "{{$cwe.CweID}}",
+		Name                  : "{{$cwe.Name}}",
+		Description           : "{{$cwe.Description}}",
+		ExtendedDescription   : "{{$cwe.ExtendedDescription}}",
+		Lang                  : "ja",
 	},
 {{end}}
 }

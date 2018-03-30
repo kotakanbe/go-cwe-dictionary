@@ -122,7 +122,7 @@ func (p *FetchCmd) Execute(_ context.Context, f *flag.FlagSet, _ ...interface{})
 			cwes[i].Description = strings.TrimSpace(replacer.Replace(c.Description))
 			cwes[i].ExtendedDescription = strings.TrimSpace(replacer.Replace(c.ExtendedDescription))
 		}
-		code, err := golang.Generate(cwes)
+		code, err := golang.GenerateNVD(cwes)
 		if err != nil {
 			log.Error(err)
 			return subcommands.ExitFailure
